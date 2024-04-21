@@ -9,7 +9,7 @@ def lineNotify(img,interval=5):
     now = datetime.now()
     if (now - last_notify_time).total_seconds() >= interval:
         url = 'https://notify-api.line.me/api/notify'
-        token = '83mhTEJUPROyicFuGtarhfR5rkHz4YI7iHVtytToh5m'  # 設定 LINE Notify 權杖
+        token = ''  # 設定 LINE Notify 權杖
         headers = {
             'Authorization': 'Bearer ' + token
         }

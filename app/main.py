@@ -51,18 +51,24 @@ def yolo_detect(frame, net, classes, colors):
     
     return img
 
-def main(picture=False):
+def main(mode="video"):
     with open("app/yolo/family.names", "r") as f:
         classes = [line.strip() for line in f.readlines()]
     colors = [(0, 0, 255), (255, 0, 0), (0, 255, 0), (0, 255, 255), (255, 255, 255), (200, 200, 200), (200, 0, 200)]
     net = load_yolov4_model()
     
     VIDEO_IN = None
-    if picture:
+    if mode == "pic":
         VIDEO_IN = cv2.VideoCapture('app/img/2.jpg')
-    else:
+    elif mode == "video":
         VIDEO_IN = cv2.VideoCapture(0)
-    
+    elif mode == "ipcam":
+        VIDEO_IN = cv2.VideoCapture("192.168.1.100:8080/video")
+    else:
+        print("mode error!")
+        return
+
+
     while True:
         hasFrame, frame = VIDEO_IN.read()
         if not hasFrame:
@@ -77,5 +83,5 @@ def main(picture=False):
     VIDEO_IN.release()
     cv2.destroyAllWindows()
 
-# 調用 main 函式，picture=True 表示處理照片，picture=False 表示處理即時影像
-main(picture=True)
+# 調用 main 函式，mode = "pic" 表示處理照片，mode="video"表示處理即時影像,mode="ipcam"表示影像來源為ip監視器
+main(mode="video")
